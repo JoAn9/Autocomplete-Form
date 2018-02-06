@@ -1,15 +1,53 @@
-//Konfiguracja Webpack
+'use strict';
 
-module.exports	=	{
-    entry:	"./js/zadanieX.jsx",
-    output:	{	filename:	"./js/out.js"	},
+var path = require('path');
+var webpack = require('webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+require('es6-promise').polyfill();
+
+module.exports = {
+    entry : {
+        'js/app.js': './src/js/zadanieX.jsx'
+    },
+
+    output:{
+        filename: '[name]',
+        path: __dirname + '/build'
+    },
     watch:	true,
-    module:	{
-        loaders:	[	{
-            test:	/\.jsx$/,		exclude:	/node_modules/,
-            loader:	'babel-loader',
-            query:	{	presets:	['es2015',	'stage-2', 'react']	}
-        }
-        ]
-    }
+    plugins: [
+        new ExtractTextPlugin('./css/app.css')
+    ],
+
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,  exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: { presets: ['es2015', 'stage-2' , 'react'] }
+            },
+            {
+                test: /\.scss$/,
+                loader: "style-loader!css-loader?url=false!sass-loader"
+            },
+            { test: /\.svg$/, loader: 'svg-loader?pngScale=2' },
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]'
+                }
+            },
+        ],
+
+    },
+
+    stats: {
+        // Colored output
+        colors: true
+    },
+
+    // Create Sourcemaps for the bundle
+    devtool: 'source-map'
 };
