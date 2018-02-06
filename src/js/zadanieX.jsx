@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import countries from './zadanieX_00';
+import '../sass/main.scss';
 
 const allCountries = countries.map((country) => {
     return (
@@ -10,7 +11,7 @@ const allCountries = countries.map((country) => {
     )
 });
 
-class Country extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -63,7 +64,8 @@ class Country extends React.Component {
 
     render() {
         return <form>
-            <label>Kraj:
+            <label>
+                <h2>Kraj:</h2>
                 <input className="form-control form-control-lg"
                        style={{fontSize: "3rem"}}
                        type="text"
@@ -77,7 +79,8 @@ class Country extends React.Component {
             <label>
                 <h2>Kraje do wyboru:</h2>
                 <select value={this.state.choise}
-                        onChange={this.handleCountryChange}>
+                        onChange={this.handleCountryChange}
+                        className="form-control form-control-lg">
                     {this.state.shownCountries}
                 </select>
             </label>
@@ -85,10 +88,9 @@ class Country extends React.Component {
     }
 }
 
-
 document.addEventListener('DOMContentLoaded', function(){
     ReactDOM.render(
-        <Country />,
+        <App />,
         document.getElementById('app')
     );
 });
